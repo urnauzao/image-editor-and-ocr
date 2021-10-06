@@ -2,9 +2,9 @@ const express = require("express");
 require('express-group-routes');
 const app = express();
 const root = __dirname + "/public";
-
-app.listen(3000, () => {
-  console.log("Application started and Listening on port 3000");
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Application started and Listening on port ${PORT}`);
 });
 
 app.get("/", (req, res) => {
