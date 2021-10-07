@@ -57,6 +57,8 @@
     "serve-static": "^1.14.1",
     "setprototypeof": "^1.1.1",
     "statuses": "^1.5.0",
+    "sweetalert2": "^11.1.7",
+    "tesseract.js": "^2.1.5",
     "toidentifier": "^1.0.0",
     "type-is": "^1.6.18",
     "unpipe": "^1.0.0",

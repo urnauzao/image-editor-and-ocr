@@ -37,6 +37,12 @@ app.group("/assets/js", (router) => {
   router.get('/bootstrap.min.js', function(req, res) {
     res.sendFile(__dirname+'/node_modules/bootstrap/dist/js/bootstrap.min.js');
   });
+  router.get('/tesseract.min.js', function(req, res) {
+    res.sendFile(__dirname + '/node_modules/tesseract.js/dist/tesseract.min.js');
+  });
+  router.get('/sweetalert2.all.min.js', function(req, res) {
+    res.sendFile(__dirname + '/node_modules/sweetalert2/dist/sweetalert2.all.min.js');
+  });
 });
 
 // CSS
@@ -46,5 +52,8 @@ app.group("/assets/css", (router) => {
   });  
   router.get('/cropper.css', function(req, res) {
     res.sendFile(__dirname+'/node_modules/cropperjs/dist/cropper.css');
+  });  
+  router.get('/sweetalert2.css', function(req, res) {
+    res.sendFile(__dirname+'/node_modules/sweetalert2/dist/sweetalert2.min.css');
   });  
 });

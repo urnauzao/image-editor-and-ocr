@@ -10,6 +10,7 @@
   <script src="/assets/js/bootstrap.min.js"></script>
   <link href="/assets/styles/all.css" rel="stylesheet">
   <link href="/assets/css/cropper.css" rel="stylesheet">
+  <link href="/assets/css/sweetalert2.css" rel="stylesheet">
   <title>teste</title>
 </head>
 
@@ -155,9 +156,20 @@
         </div>
       </div>
     </div>
+    <div class="row float-end">
+      <div class="col-auto">
+        <select id="select_language" class="form-select">
+          <option value="eng">Inglês</option>
+          <option value="por" selected>Português</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary" onclick="callOCR()">Coletar Textos da Imagem</button>
+      </div>
+    </div>
 
 
-    <button class="btn btn-primary float-end" onclick="downloadImageCroped()">Cortar Imagem</button>
+
     <img src="" id="imagem-cortada" class="d-none">
   </div>
 
@@ -165,6 +177,8 @@
   <script src="/assets/js/jquery.js"></script><!-- jQuery is required -->
   <script src="/assets/js/cropper.js"></script><!-- Cropper.js is required -->
   <script src="/assets/js/jquery-cropper.js"></script>
+  <script src="/assets/js/tesseract.min.js"></script>
+  <script src="/assets/js/sweetalert2.all.min.js"></script>
   <script>
     var $image = $('#image');
     var uploadedImageURL;
@@ -228,7 +242,7 @@
     // Get the Cropper.js instance after initialized
     var cropper = $image.data('cropper');
 
-    const downloadImageCroped = () => {
+    const getUrlImageCroped = () => {
       let canvas = cropper.getCroppedCanvas({
         width: 160,
         height: 90,
@@ -240,8 +254,9 @@
         imageSmoothingEnabled: false,
         imageSmoothingQuality: 'high',
       });
-      $("#imagem-cortada").attr('src', canvas.toDataURL())
-      $("#imagem-cortada").show('slow');
+      return canvas.toDataURL();
+      // $("#imagem-cortada").attr('src', canvas.toDataURL())
+      // $("#imagem-cortada").show('slow');
     }
 
     // Gira a imagem
@@ -324,13 +339,63 @@
             cropper = new Cropper(image, options);
             inputImage.value = null;
           } else {
-            window.alert('Please choose an image file.');
+            window.alert('Por favor escolha uma imagem.');
           }
         }
       };
     } else {
       inputImage.disabled = true;
       inputImage.parentNode.className += ' disabled';
+    }
+
+    const getLanguageSelected = () => {
+      return $("#select_language").val();
+    }
+
+    const callOCR = () => {
+      let urlImg = getUrlImageCroped();
+      let lang = getLanguageSelected();
+      Swal.showLoading();
+      Tesseract.recognize(
+        urlImg,
+        lang,
+        { logger: m => console.log(m) }
+      ).then(({ data: { text } }) => {
+        Swal.close();
+        console.log(text);
+        Swal.fire({
+          showDenyButton: true,
+          reverseButtons: true,
+          denyButtonColor: "#3972e8",
+          denyButtonText: "Copiar texto",
+          title: "Leitura da imagem concluída",
+          html: `<textarea class="btn-outline-dark form-control" disabled>${text}</textarea>`
+        }).then(result => {
+          if (result.isDenied) {
+            copyToClipboard(text);
+          }
+        })
+      })
+    }
+
+    const copyToClipboard = (text) => {
+      navigator.clipboard.writeText(text).then(function () {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Texto Copiado com Sucesso',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }, function (err) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Erro ao Copiar Texto',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
     }
 
 
