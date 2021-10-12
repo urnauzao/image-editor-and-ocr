@@ -10,12 +10,17 @@
   <script src="/assets/js/bootstrap.min.js"></script>
   <link href="/assets/styles/all.css" rel="stylesheet">
   <link href="/assets/css/cropper.css" rel="stylesheet">
-  <link href="/assets/css/sweetalert2.css" rel="stylesheet">
+  <link href="/assets/css/sweetalert2.min.css" rel="stylesheet">
   <title>teste</title>
 </head>
 
 <body class="bg-dark">
   <div class="container">
+    <div class="row py-5 text-white">
+      <h1>Editor de Imagens para OCR</h1>
+      <p>Este é um protótipo utilizando bibliotecas Javascript para manuseio de imagens. No processo o usuário pode
+        editar a imagem, realizar leitura OCR ou fazer o download da imagem editada.</p>
+    </div>
     <div class="row">
       <div class="col-12 h-25">
         <img id="image" class="img-fluid w-50" src="/assets/images/cupom-fiscal-10.jpg">
@@ -166,6 +171,10 @@
       <div class="col-auto">
         <button class="btn btn-primary" onclick="callOCR()">Coletar Textos da Imagem</button>
       </div>
+      <div class="col-auto">
+        <a class="btn btn-success" onclick="downloadImage(this)" href="#" download="imagem-editada.jpg">Baixar
+          Imagem</a>
+      </div>
     </div>
 
 
@@ -185,8 +194,8 @@
     var URL = window.URL || window.webkitURL;
     var dataX = document.getElementById('dataX') || 0;
     var dataY = document.getElementById('dataY') || 0;
-    var dataHeight = document.getElementById('dataHeight') || 1000;
-    var dataWidth = document.getElementById('dataWidth') || 1000;
+    var dataHeight = document.getElementById('dataHeight') || 2000;
+    var dataWidth = document.getElementById('dataWidth') || 2000;
     var dataRotate = document.getElementById('dataRotate') || 0;
     var dataScaleX = document.getElementById('dataScaleX') || 1;
     var dataScaleY = document.getElementById('dataScaleY') || 1;
@@ -398,6 +407,10 @@
       });
     }
 
+    const downloadImage = (e) => {
+      e.href = getUrlImageCroped()
+      // window.open(getUrlImageCroped(), '_blank').focus();
+    }
 
     // cropper.getCroppedCanvas();
     // cropper.getCroppedCanvas({
