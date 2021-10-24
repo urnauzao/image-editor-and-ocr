@@ -1,7 +1,18 @@
 # Editor de Imagem com OCR
+
+## Objetivo
+Este projeto foi desenvolvido para permitir a edição de imagens, recoter de áreas selecionadas e a interpretação via bibliotecas de OCR dos textos encontrados na imagem, retornado ao usuário os textos reconhecidos na imagem.
+
+## Demonstração
+Para visualizar uma amostra do projeto em execução acesse:
+https://image-editor-and-ocr.vercel.app
+
+
+## Sobre o Projeto
 Neste projeto foi utilizado Node.js com bibliotecas como Jquery, Express, Tesseract, Sweetalert2 e Croppie. 
 
 Este projeto foi adaptado para ser publicado na Vercel, por esta razão existem arquivos estáticos dentro do '/public', em caso de dar seguimento utilizando Node.js recomendo que ignore os arquivo das '/public/assets'.
+
 
 ## Instalação com Node.js
 Para instalar e executar o projeto com Node.js basta seguir os passos comuns de todas as aplicações node. Vamos lá:
